@@ -260,10 +260,12 @@ function Landing({ onOpen }: { onOpen: (i: number) => void }) {
     setDockTransform(`translate(${dx}px, ${dy}px) scale(${scale})`)
   }, [docking])
 
-  // Sequence:
+  // Sequence — the name is a title card that must clear the stage before any
+  // content arrives:
   //  1) initials rise on the header line, 2) name spells out gigantic and holds,
-  //  3) images scatter in and settle underneath while the name stays static,
-  //  4) only then does the name shrink down into its resting header slot.
+  //  3) the name docks up into its resting header slot, emptying the center,
+  //  4) only THEN do the thumbnails scatter in and settle into the row — so the
+  //     giant "MELINA JONES" is never cluttered by fading-in images.
   useEffect(() => {
     if (reduce) {
       setNameStep(3)
@@ -275,20 +277,23 @@ function Landing({ onOpen }: { onOpen: (i: number) => void }) {
     const J_AT = 1000 // M holds alone ~0.5s, then J cartwheels in
     const RAISE_AT = 1480 // initials travel up to the header line
     const EXPAND_AT = 1900 // full name spells out at the top
-    const ENTER_AT = 3060 // images begin after the name has spelled out
+    const DOCK_AT = EXPAND_AT + 950 // hold the title card, then dock to header
+    const READY_AT = DOCK_AT + 900 // crossfade to the real header as it settles
+    const ENTER_AT = DOCK_AT + 960 // images begin only once the center is clear
     const SETTLE_AT = ENTER_AT + SETTLE_MS
-    const DOCK_AT = SETTLE_AT + MOVE_MS + 350 // wait for the row to finish moving
     const timers = [
       setTimeout(() => setNameStep(1), 500),
       setTimeout(() => setNameStep(2), J_AT),
       setTimeout(() => raise(), RAISE_AT),
       setTimeout(() => setNameStep(3), EXPAND_AT),
-      setTimeout(() => setEntered(true), ENTER_AT),
-      setTimeout(() => setSettled(true), SETTLE_AT),
+      // Dock first — clears the center before any content appears.
       setTimeout(() => dock(), DOCK_AT),
       // Crossfade to the real header the moment the FLIP settles (transform is
       // 920ms) — no dead pause at large size before the handoff.
-      setTimeout(() => setIntroReady(true), DOCK_AT + 900),
+      setTimeout(() => setIntroReady(true), READY_AT),
+      // Thumbnails scatter in and settle only after the name has left the center.
+      setTimeout(() => setEntered(true), ENTER_AT),
+      setTimeout(() => setSettled(true), SETTLE_AT),
     ]
     return () => timers.forEach(clearTimeout)
   }, [reduce])
@@ -303,8 +308,9 @@ function Landing({ onOpen }: { onOpen: (i: number) => void }) {
     const frame = { left: w * FRAME_X, top: h * FRAME_Y, width: pw, height: ph }
     const n = CASE_STUDIES.length
     const PORTRAIT_AR = 1.3 // height / width — editorial portrait frame
-    // The row spans the full stage, gutter to gutter (~5.6% each side).
-    const spanW = pw * (1 - 2 * 0.056)
+    // The row is inset from the full-bleed gutters so it reads as a composed
+    // element rather than a banner — ~17% narrower than the stage, still centered.
+    const spanW = pw * (1 - 2 * 0.056) * 0.83
     let gap = pw * 0.02
     let imgW = (spanW - (n - 1) * gap) / n
     let imgH = imgW * PORTRAIT_AR
@@ -532,8 +538,9 @@ function Landing({ onOpen }: { onOpen: (i: number) => void }) {
               // Flush with the hovered image's left edge. On hover it scales to
               // 125% from center, so its left edge shifts left by 12.5% of width.
               left: r.left - r.width * 0.125,
-              // Constrain the block to the hovered thumbnail's (scaled) width.
-              width: r.width * 1.25,
+              // A narrow measure (~60% of the thumbnail width) so the caption
+              // reads as a tight editorial column rather than a full-width line.
+              width: r.width * 0.6,
               // Clear the image even when it scales to 125% (grows 12.5% upward
               // from center) plus a comfortable margin.
               top: r.top - r.height * 0.125 - 16,
