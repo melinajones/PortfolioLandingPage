@@ -317,7 +317,7 @@ function Landing({ onOpen }: { onOpen: (i: number) => void }) {
     // The row is inset from the full-bleed gutters so it reads as a composed
     // element rather than a banner — ~17% narrower than the stage, still centered.
     const spanW = pw * (1 - 2 * 0.056) * 0.83
-    let gap = pw * 0.02
+    let gap = pw * 0.016
     let imgW = (spanW - (n - 1) * gap) / n
     let imgH = imgW * PORTRAIT_AR
     // Reserve a top zone (header + relocated menu) and a bottom zone (manifesto),
