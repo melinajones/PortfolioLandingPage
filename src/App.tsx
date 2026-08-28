@@ -8,6 +8,8 @@ import juneteenthImg from "@/imports/grid-item-05.jpg"
 type CaseStudy = {
   id: string
   nav: string
+  // External case-study URL (opens the live Webflow page).
+  href: string
   title: string
   client: string
   year: string
@@ -30,6 +32,7 @@ const CASE_STUDIES: CaseStudy[] = [
   {
     id: "moxie",
     nav: "MOXIE",
+    href: "https://sanshype-design-2-0.webflow.io/case-study-moxie",
     title: "Moxie",
     client: "Moxie Beauty",
     year: "2025",
@@ -48,6 +51,7 @@ const CASE_STUDIES: CaseStudy[] = [
   {
     id: "ah2",
     nav: "AH2",
+    href: "https://sanshype-design-2-0.webflow.io/case-study-ah2",
     title: "AH2",
     client: "After Hours",
     year: "2024",
@@ -66,6 +70,7 @@ const CASE_STUDIES: CaseStudy[] = [
   {
     id: "mozilla",
     nav: "MOZILLA",
+    href: "https://sanshype-design-2-0.webflow.io/case-study-mozilla",
     title: "Mozilla",
     client: "Mozilla",
     year: "2024",
@@ -85,6 +90,7 @@ const CASE_STUDIES: CaseStudy[] = [
   {
     id: "made",
     nav: "MADE",
+    href: "https://sanshype-design-2-0.webflow.io/case-study-made",
     title: "Made",
     client: "Made Studio",
     year: "2023",
@@ -103,6 +109,7 @@ const CASE_STUDIES: CaseStudy[] = [
   {
     id: "sf-juneteenth",
     nav: "SF JUNETEENTH",
+    href: "https://sanshype-design-2-0.webflow.io/case-study-sf-juneteenth",
     title: "SF Juneteenth",
     client: "City of San Francisco",
     year: "2023",
@@ -684,82 +691,16 @@ function Landing({ onOpen }: { onOpen: (i: number) => void }) {
   )
 }
 
-function CaseStudyPage({ cs, onBack }: { cs: CaseStudy; onBack: () => void }) {
-  const scrollRef = useRef<HTMLDivElement>(null)
-  useEffect(() => {
-    scrollRef.current?.scrollTo(0, 0)
-  }, [cs.id])
-  return (
-    <div
-      ref={scrollRef}
-      className="h-full w-full animate-[fadeUp_450ms_cubic-bezier(0.16,1,0.3,1)] overflow-y-auto bg-white text-[#111110]"
-    >
-      <div className="flex items-center justify-between px-[5.6%] pt-[3.6%]">
-        <button
-          type="button"
-          onClick={onBack}
-          className="cursor-pointer text-[13px] font-bold uppercase tracking-[0.06em] transition-opacity hover:opacity-60"
-        >
-          ← Index
-        </button>
-        <div className="text-[13px] font-bold uppercase tracking-[0.06em] text-[#111110]/45">
-          {cs.year}
-        </div>
-      </div>
-
-      <div className="px-[5.6%] pb-24 pt-14 md:pt-20">
-        <div className="text-[12px] font-semibold uppercase tracking-[0.2em] text-[#111110]/45">
-          {cs.discipline}
-        </div>
-        <h1 className="mt-4 max-w-[14ch] text-[clamp(2.5rem,7vw,6rem)] font-extrabold uppercase leading-[0.95] tracking-[-0.02em]">
-          {cs.title}
-        </h1>
-        <p className="mt-6 max-w-[46ch] text-[15px] font-medium leading-[1.55] text-[#111110]/70">
-          {cs.summary}
-        </p>
-
-        <div className="mt-12 aspect-[16/10] w-full overflow-hidden bg-[#eceae6]">
-          <img src={cs.img} alt={cs.alt} className="h-full w-full object-cover" />
-        </div>
-
-        <dl className="mt-10 grid grid-cols-2 gap-y-6 border-t border-[#111110]/10 pt-8 sm:grid-cols-3">
-          <div>
-            <dt className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#111110]/40">
-              Client
-            </dt>
-            <dd className="mt-1 text-[15px] font-semibold">{cs.client}</dd>
-          </div>
-          <div>
-            <dt className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#111110]/40">
-              Year
-            </dt>
-            <dd className="mt-1 text-[15px] font-semibold">{cs.year}</dd>
-          </div>
-          <div>
-            <dt className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#111110]/40">
-              Discipline
-            </dt>
-            <dd className="mt-1 text-[15px] font-semibold">{cs.discipline}</dd>
-          </div>
-        </dl>
-      </div>
-    </div>
-  )
-}
-
 export default function App() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null)
+  // Each thumbnail / menu item links to its live Webflow case-study page.
+  // Target "_top" so the parent page navigates (not just the embedded iframe).
+  const openCaseStudy = (i: number) => {
+    window.open(CASE_STUDIES[i].href, "_top")
+  }
 
   return (
     <div className="h-full w-full">
-      {openIndex === null ? (
-        <Landing onOpen={setOpenIndex} />
-      ) : (
-        <CaseStudyPage
-          cs={CASE_STUDIES[openIndex]}
-          onBack={() => setOpenIndex(null)}
-        />
-      )}
+      <Landing onOpen={openCaseStudy} />
     </div>
   )
 }
