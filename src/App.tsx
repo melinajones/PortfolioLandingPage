@@ -131,8 +131,7 @@ const CASE_STUDIES: CaseStudy[] = [
 // Inset of the white content frame, as a fraction of the viewport. The hovered
 // work bleeds full-frame in the margin revealed around the card.
 const FRAME_X = 0.03
-const FRAME_Y = 0.052
-
+const FRAME_Y = 0.015
 const EASE_OUT = "cubic-bezier(0.16, 1, 0.3, 1)"
 const HOVER_EASE = "cubic-bezier(0.22, 1, 0.36, 1)"
 const STAGGER_MS = 300
