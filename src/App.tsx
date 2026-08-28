@@ -370,7 +370,7 @@ function Landing({ onOpen }: { onOpen: (i: number) => void }) {
         }}
       >
       {/* Header — fixed, never animates */}
-      <header className="pointer-events-none absolute left-0 top-0 z-30 flex w-full items-start justify-between px-[5.6%] pt-[1.25rem]">
+      <header className="pointer-events-none absolute left-0 top-0 z-30 flex w-full items-start justify-between px-[5.6%] pt-[0.5rem]">
         <div
           ref={headerNameRef}
           className="pointer-events-auto text-[clamp(13px,1.05vw,17px)] font-bold uppercase tracking-[0.06em]"
