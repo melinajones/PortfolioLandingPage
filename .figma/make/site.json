@@ -1,0 +1,10 @@
+{
+  "description": "Showcase your work with an interactive portfolio landing page featuring engaging animations and intuitive navigation, designed for creative professionals.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
