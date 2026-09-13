@@ -572,8 +572,8 @@ function Landing({ onOpen }: { onOpen: (i: number) => void }) {
         }}
       >
         <p className="text-left font-bold pl-[clamp(24px,6%,150px)]">
-          I don't have taste. What I <em className="italic">do</em> have is a distinct point of
-          view. And it matters most in today's digital landscape now, more than ever.
+          I don't have taste. I have a distinct point of
+          view. Having one matters now, more than ever, in our vast digital landscape.
         </p>
         <p className="mt-[0.35em] text-justify font-medium text-[#111110]/90">
           I work the way I&apos;m built: foundation-first, craft-driven, and
